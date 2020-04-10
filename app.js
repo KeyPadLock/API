@@ -1,5 +1,5 @@
 const express = require("express")
-
+const ip = require("ip")
 const app = express()
 const bodyparser = require("body-parser")
 const fs = require("fs") // file system
@@ -17,6 +17,7 @@ app.use(bodyparser.urlencoded({extended: false}))
 
 app.listen(port, () => {
     console.log(`API listening on port ${port}`)
+    console.log(`Send POST requests to ${ip.address()}:${port}/auth`)
 })
 
 // handling incoming post request
@@ -40,10 +41,10 @@ app.post("/auth", (req, res) => {
 
     // return proper response
     if(isValid) {
-        console.log(cyan, `Received valid key ${givenKey}`, reset)
+        console.log(cyan, `Received valid key ====> ${givenKey}`, reset)
         res.status(200).json({isValid: true})
     } else {
-        console.log(red, `Received invalid key ${givenKey}`, reset)
+        console.log(red, `Received invalid key ==> ${givenKey}`, reset)
         res.status(404).json({isValid: false})
     }
 
